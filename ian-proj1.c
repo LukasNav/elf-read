@@ -16,18 +16,20 @@
 #include <libelf.h>
 
 const char *segment_types_names[] = {
-    "NULL",      "LOAD",      "DYNAMIC",      "INTERP",     "NOTE",
-    "SHLIB",     "PHDR",      "TLS",          "NUM",        "GNU_EH_FRAME",
-    "GNU_STACK", "GNU_RELRO", "GNU_PROPERTY", "GNU_SFRAME",
+    "NULL", "LOAD", "DYNAMIC", "INTERP", "NOTE", "SHLIB", "PHDR", "TLS", "NUM",
+};
+
+const char *segment_gnu_names[] = {
+    "GNU_EH_FRAME", "GNU_STACK", "GNU_RELRO", "GNU_PROPERTY", "GNU_SFRAME",
 };
 
 const char *get_segment_name(unsigned int type_num) {
-  if (type_num <= 8) {
+  if (type_num < sizeof(segment_types_names) / sizeof(*segment_types_names)) {
     return segment_types_names[type_num];
 
     // gnu segments
-  } else if (0x6474e550 <= type_num && type_num <= 0x6474e554) {
-    return segment_types_names[type_num - 0x6474e550 + 9];
+  } else if (PT_GNU_EH_FRAME <= type_num && type_num <= PT_GNU_SFRAME) {
+    return segment_gnu_names[type_num - PT_GNU_EH_FRAME];
   }
   return NULL;
 }
