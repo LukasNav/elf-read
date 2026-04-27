@@ -1,12 +1,10 @@
-CFLAGS= -Wall -Wextra
+CFLAGS= -Wall -Wextra --std=c99
 CFLAGS+= -g
 LDFLAGS= -lelf
 
-all: ian-proj1
+all: elf-read
 
 .PHONY: clean pack
 clean:
-	rm ian-proj1 ian-proj1.tar.gz
+	rm elf-read
 
-pack:
-	tar --gz -vcf ian-proj1.tar.gz ian-proj1.c Makefile
